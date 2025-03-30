@@ -1,0 +1,80 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Card container to ensure consistent width and spacing */
+#BookCard {
+  width: 400px; /* Fixed width for consistency */
+  margin: 10px auto; /* Center the card and add spacing */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  overflow: hidden; /* Prevent content from breaking */
+  display: inline-block; /* Ensures consistency across different item counts */
+  vertical-align: top;
+}
+
+/* Fixing text styling and preventing vertical text wrapping */
+#BookCard h3,
+#BookCard ul li {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Pagination buttons styling */
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Disable button styling */
+button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
