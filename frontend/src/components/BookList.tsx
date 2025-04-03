@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
   const [pageNum, setPageNum] = useState<number>(1);
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const [, setTotalItems] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const navigate = useNavigate();
 
   // Fetch books from API
   useEffect(() => {
     const fetchBooks = async () => {
+      const categoryParams = selectedCategories
+        .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
+        .join('&');
       const response = await fetch(
-        `https://localhost:5000/Bookstore/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}`
+        `https://localhost:5000/Bookstore/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
       );
       const data = await response.json();
       setBooks(data.books);
@@ -23,7 +28,7 @@ function BookList() {
     };
 
     fetchBooks();
-  }, [pageSize, pageNum]);
+  }, [pageSize, pageNum, totalPages, selectedCategories]);
 
   // Sort books based on title
   const sortBooks = (books: Book[]) => {
@@ -38,8 +43,6 @@ function BookList() {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Bookstore</h1>
-
       {/* Sort Button */}
       <div
         style={{
@@ -107,6 +110,12 @@ function BookList() {
                     <strong>Price:</strong> ${p.price}
                   </li>
                 </ul>
+                <button
+                  className="btn btn-success"
+                  onClick={() => navigate(`/purchase/${p.title}/${p.bookId}`)}
+                >
+                  Purchase
+                </button>
               </div>
             </div>
           </div>

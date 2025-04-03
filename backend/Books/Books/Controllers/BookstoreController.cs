@@ -13,14 +13,23 @@ namespace Books.Controllers
         public BookstoreController(BookstoreDbContext temp) => _bookContext = temp;
         
         [HttpGet("AllBooks")]
-        public IActionResult GetBooks(int pageSize = 10, int pageNum = 1)
+        public IActionResult GetBooks(int pageSize = 10, int pageNum = 1, [FromQuery] List<string>? bookTypes = null)
         {
+            var query = _bookContext.Books.AsQueryable();
+
+            if (bookTypes != null && bookTypes.Any())
+            {
+                query = query.Where(p => bookTypes.Contains(p.Category));
+            }
+            
+            var totalNumBooks = _bookContext.Books.Count();
+            
             var something = _bookContext.Books
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
             
-            var totalNumBooks = _bookContext.Books.Count();
+            
 
             var someObject = new
             {
@@ -29,6 +38,17 @@ namespace Books.Controllers
             };
 
             return Ok(someObject);
+        }
+        
+        [HttpGet("GetBookTypes")]
+        public IActionResult GetProjectTypes()
+        {
+            var bookTypes = _bookContext.Books
+                .Select(p => p.Category)
+                .Distinct()
+                .ToList();
+            
+            return Ok(bookTypes);
         }
     }
 }
