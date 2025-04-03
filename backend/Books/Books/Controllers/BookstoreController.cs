@@ -24,13 +24,11 @@ namespace Books.Controllers
             
             var totalNumBooks = _bookContext.Books.Count();
             
-            var something = _bookContext.Books
+            var something = query
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
             
-            
-
             var someObject = new
             {
                 Books = something,

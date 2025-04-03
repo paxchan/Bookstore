@@ -82,7 +82,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
           <div
             id="BookCard"
             className="col-lg-4 col-md-6 col-sm-12 mb-4"
-            key={p.bookId}
+            key={p.bookID}
           >
             <div className="card h-100">
               <div className="card-body">
@@ -112,7 +112,9 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                 </ul>
                 <button
                   className="btn btn-success"
-                  onClick={() => navigate(`/purchase/${p.title}/${p.bookId}`)}
+                  onClick={() =>
+                    navigate(`/purchase/${p.title}/${p.bookID}/${p.price}`)
+                  }
                 >
                   Purchase
                 </button>

@@ -4,30 +4,44 @@ import { CartItem } from '../types/CartItem';
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (bookId: number) => void;
+  removeFromCart: (bookID: number) => void;
   clearCart: () => void;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<CartContextType | undefined>(undefined); // CartContext is initally undefined
 
+// anything within the CartProvider tags has access to the functions
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  // Add items to cart. Take into account the price and quantity
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((c) => c.bookId === item.bookId);
-      const updatedCart = prevCart.map((c) =>
-        c.bookId === item.bookId ? { ...c, price: c.price + item.price } : c
-      );
+      const existingItem = prevCart.find((c) => c.bookID === item.bookID);
 
-      return existingItem ? updatedCart : [...prevCart, item];
+      if (existingItem) {
+        return prevCart.map((c) =>
+          c.bookID === item.bookID
+            ? {
+                ...c,
+                quantity: c.quantity + item.quantity,
+                subtotal: c.subtotal + item.subtotal,
+              }
+            : c
+        );
+      } else {
+        return [...prevCart, item];
+      }
     });
   };
 
-  const removeFromCart = (bookId: number) => {
-    setCart((prevCart) => prevCart.filter((c) => c.bookId !== bookId));
+  // remove item from cart
+  const removeFromCart = (bookID: number) => {
+    console.log('Removing book with ID:', bookID);
+    setCart((prevCart) => prevCart.filter((c) => c.bookID !== bookID));
   };
 
+  // clears the cart
   const clearCart = () => {
     setCart(() => []);
   };
@@ -41,6 +55,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// custom hook to access the cart context values
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
