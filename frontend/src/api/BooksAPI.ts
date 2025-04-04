@@ -5,7 +5,8 @@ interface FetchBooksResponse {
   totalNumBooks: number;
 }
 
-const API_URL = 'https://localhost:5000/Bookstore';
+const API_URL =
+  'https://channing-bookstore-backend-buchf2cpb5c4cqgz.eastus-01.azurewebsites.net/Bookstore';
 
 export const fetchBooks = async (
   pageSize: number,
@@ -17,7 +18,7 @@ export const fetchBooks = async (
       .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
       .join('&');
     const response = await fetch(
-      `https://localhost:5000/Bookstore/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
+      `${API_URL}/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}${selectedCategories.length ? `&${categoryParams}` : ''}`
     );
 
     if (!response.ok) {
@@ -85,3 +86,5 @@ export const deleteBook = async (bookID: number): Promise<void> => {
     throw error;
   }
 };
+
+export default API_URL;
