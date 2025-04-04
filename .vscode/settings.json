@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "undefined/subscriptions/6486036f-8fde-41a4-a7dd-d453445c7fbb/resourceGroups/appsvc_windows_eastus/providers/Microsoft.Web/sites/Channing-Bookstore-Backend",
+  "appService.deploySubpath": "backend/Books/Books/publish"
+}
